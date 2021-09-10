@@ -1,0 +1,135 @@
+[
+    {
+        "id": "3d703986.f41da6",
+        "type": "debug",
+        "z": "bd7a62ed.7b3ca",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1070,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "ea80aeb8.a902e",
+        "type": "http request",
+        "z": "bd7a62ed.7b3ca",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": false,
+        "url": "",
+        "persist": false,
+        "authType": "",
+        "x": 810,
+        "y": 260,
+        "wires": [
+            [
+                "3d703986.f41da6"
+            ]
+        ]
+    },
+    {
+        "id": "4ec6043e.4caa4c",
+        "type": "change",
+        "z": "bd7a62ed.7b3ca",
+        "name": "URL",
+        "rules": [
+            {
+                "t": "set",
+                "p": "url",
+                "pt": "msg",
+                "to": "http://localhost:5055/?id=TRACKERID&lat=BREITENGRAD&lon=LAENGENGRAD&timestamp=ZEITSTEMPEL&gateway=BASISSTATION&rssi=SIGNALSTAERKE",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "url",
+                "pt": "msg",
+                "from": "TRACKERID",
+                "fromt": "str",
+                "to": "payload.end_device_ids.device_id",
+                "tot": "msg"
+            },
+            {
+                "t": "change",
+                "p": "url",
+                "pt": "msg",
+                "from": "BREITENGRAD",
+                "fromt": "str",
+                "to": "payload.uplink_message.decoded_payload.latitude",
+                "tot": "msg"
+            },
+            {
+                "t": "change",
+                "p": "url",
+                "pt": "msg",
+                "from": "LAENGENGRAD",
+                "fromt": "str",
+                "to": "payload.uplink_message.decoded_payload.longitude",
+                "tot": "msg"
+            },
+            {
+                "t": "change",
+                "p": "url",
+                "pt": "msg",
+                "from": "ZEITSTEMPEL",
+                "fromt": "str",
+                "to": "payload.received_at",
+                "tot": "msg"
+            },
+            {
+                "t": "change",
+                "p": "url",
+                "pt": "msg",
+                "from": "BASISSTATION",
+                "fromt": "str",
+                "to": "payload.uplink_message.rx_metadata[0].gateway_ids.gateway_id",
+                "tot": "msg"
+            },
+            {
+                "t": "change",
+                "p": "url",
+                "pt": "msg",
+                "from": "SIGNALSTAERKE",
+                "fromt": "str",
+                "to": "payload.uplink_message.rx_metadata[0].rssi",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 580,
+        "y": 260,
+        "wires": [
+            [
+                "ea80aeb8.a902e"
+            ]
+        ]
+    },
+    {
+        "id": "55536519.d0128c",
+        "type": "json",
+        "z": "bd7a62ed.7b3ca",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 580,
+        "y": 200,
+        "wires": [
+            [
+                "4ec6043e.4caa4c",
+                "3d703986.f41da6"
+            ]
+        ]
+    }
+]
